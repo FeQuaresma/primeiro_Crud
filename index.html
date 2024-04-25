@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: black;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>RapazeX</h1>
+    <h2>O que está pensando?</h2>
+    <input type="text" id="owner"><br>
+    <input type="text" id="content"><br>
+    <button id="postButton">Post</button>
+    <h2>Posts</h2>
+    <p id="PostsBoard"></p>
+    <p>Digite o Número para deletar</p>
+    <input type="number" id="PostDelete">
+    <button id="DeleteButton">Delete</button>
+    <script>
+      let posts = [];
+      let PostsBoard = "";
+      let postButton = document.getElementById("postButton");
+      let deleteButton = document.getElementById("DeleteButton");
+      let ownerInput = document.getElementById("owner");
+      let contentInput = document.getElementById("content");
+      let indexInput = document.getElementById("PostDelete");
+
+      function UpdatePostBoard() {
+        PostsBoard = "";
+        for (let i = 0; i < posts.length; i++) {
+          PostsBoard += posts[i].owner + ": " + posts[i].content + "\n";
+        }
+        document.getElementById("PostsBoard").innerText = PostsBoard;
+      }
+      
+      function CreatPost() {
+        posts.push({ owner: ownerInput.value, content: contentInput.value });
+        ownerInput.value = contentInput.value = "";
+        UpdatePostBoard();
+      }
+
+      function DeleteButton() {
+        posts.splice(indexInput.value, 1);
+        indexInput.value = "";
+        UpdatePostBoard();
+      }
+
+      postButton.onclick = CreatPost;
+      deleteButton.onclick = DeleteButton;
+
+    </script>
+  </body>
+</html>
