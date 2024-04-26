@@ -15,46 +15,56 @@
   <body>
     <h1>RapazeX</h1>
     <h2>O que está pensando?</h2>
-    <input type="text" id="owner"><br>
-    <input type="text" id="content"><br>
+    <input type="text" id="owner" /><br />
+    <input type="text" id="content" /><br />
     <button id="postButton">Post</button>
     <h2>Posts</h2>
-    <p id="PostsBoard"></p>
+    <div id="postsBoard"></div>
     <p>Digite o Número para deletar</p>
-    <input type="number" id="PostDelete">
-    <button id="DeleteButton">Delete</button>
+    <input type="number" id="postDelete" />
+    <button id="deleteButton">Delete</button>
+    <button id="seePost">see post</button>
     <script>
       let posts = [];
-      let PostsBoard = "";
+      let idCount = 0;
+      let divPost = document.getElementById("postsBoard");
       let postButton = document.getElementById("postButton");
-      let deleteButton = document.getElementById("DeleteButton");
+      let deleteButton = document.getElementById("deleteButton");
       let ownerInput = document.getElementById("owner");
       let contentInput = document.getElementById("content");
-      let indexInput = document.getElementById("PostDelete");
+      let indexInput = document.getElementById("postDelete");
+      let seePost = document.getElementById("seePost")
 
-      function UpdatePostBoard() {
-        PostsBoard = "";
-        for (let i = 0; i < posts.length; i++) {
-          PostsBoard += posts[i].owner + ": " + posts[i].content + "\n";
-        }
-        document.getElementById("PostsBoard").innerText = PostsBoard;
-      }
-      
       function CreatPost() {
-        posts.push({ owner: ownerInput.value, content: contentInput.value });
-        ownerInput.value = contentInput.value = "";
-        UpdatePostBoard();
+        let p = document.createElement("p");
+        posts.push({
+          id: idCount,
+          owner: ownerInput.value,
+          content: contentInput.value,
+        });
+        p.textContent =
+          posts[posts.length - 1].id +
+          ". " +
+          posts[posts.length - 1].owner +
+          ": " +
+          posts[posts.length - 1].content;
+        p.id = posts[posts.length - 1].id;
+        idCount++;
+        divPost.appendChild(p);
+        ownerInput.value = contentInput.value = ""
       }
 
-      function DeleteButton() {
-        posts.splice(indexInput.value, 1);
-        indexInput.value = "";
-        UpdatePostBoard();
+      function DeletePost() {
+        let deletePost = document.getElementById(indexInput.value)
+        divPost.removeChild(deletePost)
+        indexInput.value = ""
       }
 
+      const seePostFunc = () => alert(posts.length)
+
+      seePost.onclick = seePostFunc
       postButton.onclick = CreatPost;
-      deleteButton.onclick = DeleteButton;
-
+      deleteButton.onclick = DeletePost;
     </script>
   </body>
 </html>
